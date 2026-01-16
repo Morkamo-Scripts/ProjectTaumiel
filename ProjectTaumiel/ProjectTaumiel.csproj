@@ -92,8 +92,25 @@
             <HintPath>..\packages\RueI.3.1.2\lib\net48\RueI.dll</HintPath>
         </Reference>
         <Reference Include="System" Private="False" />
+        <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+        </Reference>
         <Reference Include="System.Core" Private="False" />
         <Reference Include="System.Data" Private="False" />
+        <Reference Include="System.Data.SQLite, Version=2.0.2.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Data.SQLite.2.0.2\lib\net471\System.Data.SQLite.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Transactions" />
         <Reference Include="System.Xml" Private="False" />
         <Reference Include="UnityEngine" Private="False">
             <HintPath>..\..\Libs\UnityEngine.dll</HintPath>
@@ -115,24 +132,45 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Commands\AddTaumielPlayerCommand.cs" />
+        <Compile Include="Commands\RemoveTaumielPlayerCommand.cs" />
         <Compile Include="Components\Extensions\PlayerExtensions.cs" />
         <Compile Include="Components\Features\Components\Interfaces\IPropertyModule.cs" />
         <Compile Include="Components\Features\Components\TaumielProperties.cs" />
         <Compile Include="Components\Features\CoroutineRunner.cs" />
         <Compile Include="Components\Features\ProjectTaumielProperties.cs" />
         <Compile Include="Config.cs" />
+        <Compile Include="DatabaseHandler.cs" />
         <Compile Include="Events\Components\ICancelableEvent.cs" />
         <Compile Include="Events\EventArgs\Player\PlayerFullConnectedEventArgs.cs" />
         <Compile Include="Events\EventManager.cs" />
         <Compile Include="Events\PlayerEvents.cs" />
+        <Compile Include="Handlers\PlayerTHandler.cs" />
+        <Compile Include="Handlers\PrefixHandler.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="ServerDependencies\e_sqlite3.dll" />
+      <Content Include="ServerDependencies\MorkamoEventsRegistrator.dll" />
+      <Content Include="ServerDependencies\SQLite.Interop.dll" />
+      <Content Include="ServerDependencies\System.Data.SQLite.dll" />
     </ItemGroup>
     <!--<ItemGroup>
       <None Include="App.config" />
       <None Include="packages.config" />
     </ItemGroup>-->
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+      <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+    </Target>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">

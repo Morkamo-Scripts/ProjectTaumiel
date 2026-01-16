@@ -7,5 +7,7 @@ namespace ProjectTaumiel
     {
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
+
+        public string ServerIdentifier { get; set; } = "Classic";
     }
 }
