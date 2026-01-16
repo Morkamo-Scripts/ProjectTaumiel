@@ -53,6 +53,9 @@ namespace ProjectTaumiel
         
         private void OnVerifiedPlayer(VerifiedEventArgs ev)
         {
+            if (ev.Player == null || ev.Player.IsNPC)
+                return;
+            
             if (ev.Player.ReferenceHub.gameObject.GetComponent<ProjectTaumielProperties>() != null)
                 return;
 

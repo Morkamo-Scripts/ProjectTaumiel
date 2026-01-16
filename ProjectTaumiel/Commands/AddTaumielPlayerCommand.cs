@@ -1,5 +1,6 @@
 ﻿using System;
 using CommandSystem;
+using Exiled.Permissions.Extensions;
 
 namespace ProjectTaumiel.Commands;
 
@@ -14,6 +15,19 @@ public class AddTaumielPlayerCommand : ICommand
     
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
+        if (!sender.CheckPermission("pt.addtmpl"))
+        {
+            string requestPermission = "Требуется разрешение - 'pt.addtmpl'";
+            
+            if (Plugin.Instance.Config.Debug)
+                response = $"<color=red>Вы не имеете права использовать данную команду!</color>\n" +
+                           $"<color=orange>[{requestPermission}]</color>";
+            else
+                response = "<color=red>Вы не имеете права использовать данную команду!</color>";
+            
+            return false;
+        }
+        
         if (arguments.Count < 1)
         {
             response = "Формат ввода: addtmpl [id64]. (Пример: addtmpl 7777777777777@steam)";

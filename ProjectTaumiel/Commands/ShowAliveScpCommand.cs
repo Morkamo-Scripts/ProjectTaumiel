@@ -1,23 +1,24 @@
 ﻿using System;
 using CommandSystem;
 using Exiled.Permissions.Extensions;
+using ProjectTaumiel.Components.Extensions;
 
 namespace ProjectTaumiel.Commands;
 
 [CommandHandler(typeof(ClientCommandHandler))]
 [CommandHandler(typeof(GameConsoleCommandHandler))]
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
-public class RemoveTaumielPlayerCommand : ICommand
+public class ShowAliveScpCommand : ICommand
 {
-    public string Command { get; } = "removeTaumielPlayer";
-    public string[] Aliases { get; } = ["rmtmpl"];
-    public string Description { get; } = "Удаляет игрока из списка Taumiel пользователей!";
+    public string Command { get; } = "showAliveScps";
+    public string[] Aliases { get; } = ["showAS"];
+    public string Description { get; } = "Включает и выключает показ живых SCP!";
     
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (!sender.CheckPermission("pt.rmtmpl"))
+        if (!sender.CheckPermission("pt.showAS"))
         {
-            string requestPermission = "Требуется разрешение - 'pt.rmtmpl'";
+            string requestPermission = "Требуется разрешение - 'pt.showAS'";
             
             if (Plugin.Instance.Config.Debug)
                 response = $"<color=red>Вы не имеете права использовать данную команду!</color>\n" +
@@ -28,17 +29,20 @@ public class RemoveTaumielPlayerCommand : ICommand
             return false;
         }
         
-        if (arguments.Count < 1)
+        if (arguments.Count < 1 || !byte.TryParse(arguments.At(0), out byte state))
         {
-            response = "Формат ввода: rmtmpl [id64]. (Пример: rmtmpl 7777777777777@steam)";
+            response = "Формат ввода: showas [1/0]. (Пример: showas 1)";
             return false;
         }
 
-        if (!DatabaseHandler.IsPlayerExists(arguments.At(0)))
+        if (state != 1 && state != 0)
         {
-            response = "Игрока и так нет в списке Taumiel пользователей!";
+            response = "Некорректное значение состояния. Либо 1 (вкл.), либо 0 (выкл.)!";
             return false;
         }
+
+        sender.AsPlayer().TaumielProperties().PlayerProperties
+            .IsShowAliveScps = state == 1;
         
         DatabaseHandler.RemovePlayer(arguments.At(0));
         

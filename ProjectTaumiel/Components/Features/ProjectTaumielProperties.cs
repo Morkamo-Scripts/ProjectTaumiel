@@ -9,9 +9,9 @@ public sealed class ProjectTaumielProperties() : MonoBehaviour
     private void Awake()
     {
         Player = Player.Get(gameObject);
-        TaumielProperties = new TaumielProperties(this);
+        PlayerProperties = new TaumielProperties(this);
     }
     
     public Player Player { get; private set; }
-    public TaumielProperties TaumielProperties { get; private set; }
+    public TaumielProperties PlayerProperties { get; private set; }
 }

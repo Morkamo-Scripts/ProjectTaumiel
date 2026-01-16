@@ -7,5 +7,6 @@ public class TaumielProperties(ProjectTaumielProperties projectTaumielProperties
 {
     public ProjectTaumielProperties ProjectTaumielProperties { get; } = projectTaumielProperties;
 
-    public bool PrefixEnabled { get; set; } = true;
+    public bool IsTaumielPlayer { get; set; } = false;
+    public bool IsShowAliveScps { get; set; } = false;
 }

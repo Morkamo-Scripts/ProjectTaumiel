@@ -134,6 +134,7 @@
     <ItemGroup>
         <Compile Include="Commands\AddTaumielPlayerCommand.cs" />
         <Compile Include="Commands\RemoveTaumielPlayerCommand.cs" />
+        <Compile Include="Commands\ShowAliveScpCommand.cs" />
         <Compile Include="Components\Extensions\PlayerExtensions.cs" />
         <Compile Include="Components\Features\Components\Interfaces\IPropertyModule.cs" />
         <Compile Include="Components\Features\Components\TaumielProperties.cs" />
